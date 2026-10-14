@@ -63,7 +63,10 @@ while :; do
   [ "$mode" = mobile ] && args+=(--serve-mobile-pairing)
   # Chromium's profile lock names the old container's hostname; nothing else runs Orca here.
   rm -f "$H/.config/orca"/Singleton*
-  as_orca /opt/orca/orca-ide --no-sandbox "${args[@]}" 2>&1 | while IFS= read -r line; do
+  # Orca's terminal daemon outlives the main process (so agents survive restarts) and
+  # inherits stdout, so wait on Orca itself, never on the pipe reaching EOF.
+  # ponytail: each restart leaves the old filter attached to the daemon (~2 MB bash).
+  as_orca /opt/orca/orca-ide --no-sandbox "${args[@]}" > >(while IFS= read -r line; do
     case $line in
       '{"type":"orca_server_ready"'*)
         scope=$(printf '%s' "$line" | jq -r '.pairing.scope // "runtime"')
@@ -71,7 +74,8 @@ while :; do
         echo "Orca server ready ($(printf '%s' "$line" | jq -r '.advertisedEndpoint')). Pairing links: ${ADDR}/railway-pair" ;;
       *) printf '%s\n' "$line" ;;
     esac
-  done
+  done) 2>&1 &
+  wait $!
   echo "orca exited; restarting"
   sleep 2
 done
