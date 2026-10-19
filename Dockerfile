@@ -1,8 +1,8 @@
 FROM ubuntu:24.04
 
 # Bump here. Orca: version + sha256 of orca-linux.AppImage (sha256sum the release asset).
-ARG ORCA_VERSION=1.4.225
-ARG ORCA_SHA256=579e0afebb59a7219a8ce867b181516cf06c8b39083e0bbd5c851d0b49462bfc
+ARG ORCA_VERSION=1.4.229
+ARG ORCA_SHA256=033e947e59ddf4f66b751888257dd798f88346db730af186fec94a6e551d7da0
 ARG CLAUDE_CODE_VERSION=2.1.300
 ARG CODEX_VERSION=0.162.1
 # (gh api repos/anomalyco/opencode/releases/tags/vX.Y.Z -q '.assets[]|select(.name=="opencode-linux-x64.tar.gz").digest')
