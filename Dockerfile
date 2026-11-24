@@ -2,16 +2,16 @@ FROM ubuntu:24.04
 
 # Bump here. Orca: version + sha256 of orca-linux.AppImage (sha256sum the release asset).
 # upgrade: github stablyai/orca
-ARG ORCA_VERSION=1.4.256
-ARG ORCA_SHA256=5453149acd73ad044ad2a3e24226c3467cdc13f317b6ef4778aeb3e14f61a3dd
+ARG ORCA_VERSION=1.4.272
+ARG ORCA_SHA256=39f889dbd1b111829172c69637472a46241e4591064719a30c79b0138b5b1d6a
 # upgrade: npm @anthropic-ai/claude-code
-ARG CLAUDE_CODE_VERSION=2.1.322
+ARG CLAUDE_CODE_VERSION=2.1.331
 # upgrade: npm @openai/codex
 ARG CODEX_VERSION=0.167.0
 # (gh api repos/anomalyco/opencode/releases/tags/vX.Y.Z -q '.assets[]|select(.name=="opencode-linux-x64.tar.gz").digest')
 # upgrade: github anomalyco/opencode
-ARG OPENCODE_VERSION=1.19.5
-ARG OPENCODE_SHA256=588310a336fa3b9df36b3f0225b26f679d453efaad0cf3d66c3651ef3ec1647a
+ARG OPENCODE_VERSION=1.19.6
+ARG OPENCODE_SHA256=47734e08968b30cc22a0bffb6d9feeed76ad4aa743213a12122040392d09a057
 
 ENV ORCA_VERSION=${ORCA_VERSION} DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 PORT=8080 \
     NPM_CONFIG_PREFIX=/opt/npm PATH=/opt/npm/bin:/opt/orca/resources/bin:$PATH \
