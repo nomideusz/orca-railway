@@ -1,0 +1,23 @@
+#!/bin/sh
+# codex-no-daemon CONFIG -- turn Codex's daemon auto-start off in CONFIG (a config.toml),
+# unless the file already sets it either way.
+# Codex 0.168+ copies itself (about 420 MB) into its home's packages/ on first start, for a
+# background app-server daemon. The copy takes about 1 GB of memory, so on a 0.5 GB service
+# the kernel kills Codex before it opens. Run on every boot: a volume from an older image
+# already has a config.toml, and this adds the one line to it without touching the rest.
+set -e
+cfg=$1
+mkdir -p "$(dirname "$cfg")"
+touch "$cfg"
+grep -q 'daemon_auto_start[[:space:]]*=' "$cfg" && exit 0
+if grep -q '^[[:space:]]*\[features\]' "$cfg"; then
+  # Into the existing table: TOML refuses a second [features].
+  sed -i '0,/^[[:space:]]*\[features\].*/s//&\ndaemon_auto_start = false/' "$cfg"
+elif grep -q '^[[:space:]]*features\.' "$cfg"; then
+  # Dotted keys made the table already; add one beside them.
+  sed -i '0,/^[[:space:]]*features\./s//features.daemon_auto_start = false\n&/' "$cfg"
+else
+  [ -s "$cfg" ] && echo >> "$cfg"
+  printf '%s\n' '# Added by the Railway template: see codex-no-daemon in the image.' \
+    '[features]' 'daemon_auto_start = false' >> "$cfg"
+fi

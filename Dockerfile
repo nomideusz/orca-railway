@@ -7,7 +7,7 @@ ARG ORCA_SHA256=39f889dbd1b111829172c69637472a46241e4591064719a30c79b0138b5b1d6a
 # upgrade: npm @anthropic-ai/claude-code
 ARG CLAUDE_CODE_VERSION=2.1.331
 # upgrade: npm @openai/codex
-ARG CODEX_VERSION=0.167.0
+ARG CODEX_VERSION=0.172.0
 # (gh api repos/anomalyco/opencode/releases/tags/vX.Y.Z -q '.assets[]|select(.name=="opencode-linux-x64.tar.gz").digest')
 # upgrade: github anomalyco/opencode
 ARG OPENCODE_VERSION=1.19.6
@@ -60,6 +60,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY railway-pair.mjs /opt/railway-pair.mjs
 COPY entrypoint.sh /entrypoint.sh
 COPY drop-file-cache /usr/local/bin/drop-file-cache
+COPY --chmod=0755 codex-no-daemon /usr/local/bin/codex-no-daemon
 
 EXPOSE 8080
 ENTRYPOINT ["/usr/bin/tini", "-g", "--", "/entrypoint.sh"]

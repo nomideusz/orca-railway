@@ -11,7 +11,7 @@ One service, one volume. The pinned Orca release (v1.4.272, checksum-verified at
 - **Use it from any browser.** The template runs Orca's full runtime, the one that ships the browser client, so a laptop, tablet or phone with a browser is enough. No install, no Tailscale.
 - **Locked by Orca's own pairing.** Every connection needs a paired device token. Someone who finds the URL sees only an empty "Connect to Orca" form. The desktop and phone apps connect through this same lock. A basic-auth gateway in front would have locked them out.
 - **A pairing page instead of digging through logs.** Open `https://<your-domain>/railway-pair` and sign in with the generated `ORCA_SETUP_PASSWORD`. The page has a one-click browser sign-in, the link for the desktop app, a QR code for the phone app, and a button that revokes every paired device. The pairing credential Orca prints at startup is kept out of the deploy logs.
-- **Agents preinstalled and pinned:** Claude Code 2.1.300, Codex 0.162.1 and OpenCode 1.19.0, next to `git`, `gh`, Node 22, Python 3 + `uv`, `build-essential`, `ripgrep`, `jq` and `tmux`. Install any other agent from an Orca terminal.
+- **Agents preinstalled and pinned:** Claude Code 2.1.331, Codex 0.172.0 and OpenCode 1.19.6, next to `git`, `gh`, Node 22, Python 3 + `uv`, `build-essential`, `ripgrep`, `jq` and `tmux`. Install any other agent from an Orca terminal.
 - **A normal user with sudo.** Agents run as user `orca`, so Claude Code's skip-permissions mode works (it refuses that mode as root). Passwordless `sudo` is there for `apt-get`.
 - **Everything persists.** `/home/orca` is the volume: Orca's state, paired devices and agent sessions (`~/.config/orca`), agent logins (`~/.claude`, `~/.codex`), your repos in `~/projects`, and dotfiles.
 
